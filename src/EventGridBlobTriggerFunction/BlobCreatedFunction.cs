@@ -16,7 +16,7 @@ namespace EventGridBlobTriggerFunction
 
         [Function(nameof(EventGridBlobTriggerFunction))]
         public async Task Run(
-            [BlobTrigger("event-container/{name}", Source = BlobTriggerSource.EventGrid, Connection = "BlobServiceUri")] Stream stream,
+            [BlobTrigger("demo/{name}", Source = BlobTriggerSource.EventGrid, Connection = "BlobServiceUri")] Stream stream,
             string name)
         {
             using var blobStreamReader = new StreamReader(stream);
