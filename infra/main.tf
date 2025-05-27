@@ -109,7 +109,7 @@ module "function_app" {
   name                = module.naming.function_app.name
   location            = var.location
   resource_group_name = azurerm_resource_group.this.name
-  kind                = "functionapp,linux"
+  kind                = "functionapp"
 
   os_type                  = module.asp.resource.os_type
   service_plan_resource_id = module.asp.resource_id
