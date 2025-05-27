@@ -113,6 +113,9 @@ module "function_app" {
   os_type                  = module.asp.resource.os_type
   service_plan_resource_id = module.asp.resource_id
 
+  storage_account_name          = "stfuncevblobtrigdemo"
+  storage_uses_managed_identity = true
+
   app_settings = {
     WEBSITE_RUN_FROM_PACKAGE = "1"
   }
