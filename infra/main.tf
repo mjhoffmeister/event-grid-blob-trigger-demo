@@ -52,13 +52,13 @@ module "storage_account" {
   location            = var.location
   resource_group_name = azurerm_resource_group.this.name
 
-  network_rules = null
+  network_rules                 = null
   public_network_access_enabled = true
 
   containers = {
     demo_container = {
-        name = "demo"
-        public_access = "container"
+      name          = "demo"
+      public_access = "container"
     }
   }
 }
