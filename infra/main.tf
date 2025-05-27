@@ -45,7 +45,7 @@ resource "azurerm_resource_group" "this" {
 
 # Storage account
 module "storage_account" {
-  source  = "Azure/avm-res-storage-account/azurerm"
+  source  = "Azure/avm-res-storage-storageaccount/azurerm"
   version = "0.6.3"
 
   name                = module.naming.storage_account.name
