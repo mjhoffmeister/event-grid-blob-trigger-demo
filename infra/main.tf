@@ -57,8 +57,7 @@ module "storage_account" {
 
   containers = {
     demo_container = {
-      name          = "demo"
-      public_access = "container"
+      name = "demo"
     }
   }
 }
