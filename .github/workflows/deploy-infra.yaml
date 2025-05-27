@@ -17,7 +17,7 @@ permissions:
 # These environment variables are used by the Terraform provider to authenticate
 # to Azure using OIDC.
 env:
-  ARM_CLIENT_ID: ${{ secrets.AZURE_INFRA_CLIENT_ID }}
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
@@ -37,24 +37,24 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
-        working-directory: ./infrastructure
+        working-directory: ./infra
 
       - name: Select or Create Terraform Workspace
-        run: terraform workspace select app_insights_demo || terraform workspace new app_insights_demo
-        working-directory: ./infrastructure
+        run: terraform workspace select evgblobtrig_demo || terraform workspace new evgblobtrig_demo
+        working-directory: ./infra
 
       - name: Terraform Validate
         id: validate
         run: terraform validate
-        working-directory: ./infrastructure
+        working-directory: ./infra
 
         # Checks that all Terraform configuration files adhere to a canonical format
       - name: Terraform Format
         run: terraform fmt -check
-        working-directory: ./infrastructure
+        working-directory: ./infra
 
       # Generates an execution plan for Terraform
-      # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there
+      # An exit code of 0 indicates no changes, 1 a terraform failure, 2 there
       # are pending changes.
       - name: Terraform Plan
         id: tf-plan
@@ -70,15 +70,15 @@ jobs:
           else 
             exit 0
           fi
-        working-directory: ./infrastructure
+        working-directory: ./infra
 
       # Save plan to artifacts  
       - name: Publish Terraform Plan
         uses: actions/upload-artifact@v4
         with:
           name: tfplan
-          path: ./infrastructure/tfplan
-          
+          path: ./infra/tfplan
+
       # Create string output of Terraform Plan
       - name: Create String Output
         id: tf-plan-string
@@ -95,7 +95,7 @@ jobs:
           echo '```' >> $GITHUB_OUTPUT
           echo "</details>" >> $GITHUB_OUTPUT
           echo "${delimiter}" >> $GITHUB_OUTPUT
-        working-directory: ./infrastructure
+        working-directory: ./infra
           
         # Publish Terraform Plan as task summary
       - name: Publish Terraform Plan to Task Summary
@@ -107,4 +107,4 @@ jobs:
       - name: Terraform Apply
         id: apply
         run: terraform apply -auto-approve -no-color -var-file=demo.tfvars tfplan
-        working-directory: ./infrastructure
+        working-directory: ./infra
