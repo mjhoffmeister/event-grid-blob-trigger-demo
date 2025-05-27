@@ -46,7 +46,7 @@ resource "azurerm_resource_group" "this" {
 # Storage account
 module "storage_account" {
   source  = "Azure/avm-res-storage-account/azurerm"
-  version = "0.4.2"
+  version = "0.6.3"
 
   name                = module.naming.storage_account.name
   location            = var.location
@@ -54,16 +54,6 @@ module "storage_account" {
 
   network_rules = null
   public_network_access_enabled = true
-}
-
-# Log analytics workspace
-module "law" {
-  source  = "Azure/avm-res-operationalinsights-workspace/azurerm"
-  version = "0.6.3"
-
-  name                = module.naming.storage_account.name
-  location            = var.location
-  resource_group_name = azurerm_resource_group.this.name
 
   containers = {
     demo_container = {
@@ -73,8 +63,21 @@ module "law" {
   }
 }
 
+# Log analytics workspace
+module "law" {
+  source  = "Azure/avm-res-operationalinsights-workspace/azurerm"
+  version = "0.4.2"
+
+  name                = module.naming.storage_account.name
+  location            = var.location
+  resource_group_name = azurerm_resource_group.this.name
+  log_analytics_workspace_identity = {
+    type = "SystemAssigned"
+  }
+}
+
 # Application Insights for the Function App
-module "appi_psi" {
+module "appi" {
   source  = "Azure/avm-res-insights-component/azurerm"
   version = "0.1.5"
 
