@@ -26,4 +26,23 @@ namespace EventGridBlobTriggerFunction
                 new { Timestamp = DateTime.UtcNow, Name = name });
         }
     }
+
+    public class HelloWorldFunction
+    {
+        private readonly ILogger _logger;
+
+        public HelloWorldFunction(ILoggerFactory loggerFactory)
+        {
+            _logger = loggerFactory.CreateLogger<HelloWorldFunction>();
+        }
+
+        [Function("HelloWorld")]
+        public HttpResponseData RunHelloWorld([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
+        {
+            _logger.LogInformation("HelloWorld function was triggered.");
+            var response = req.CreateResponse(System.Net.HttpStatusCode.OK);
+            response.WriteString("Hello World");
+            return response;
+        }
+    }
 }
