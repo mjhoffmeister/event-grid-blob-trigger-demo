@@ -38,11 +38,12 @@ namespace EventGridBlobTriggerFunction
         }
 
         [Function("HelloWorld")]
-        public HttpResponseData RunHelloWorld([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
+        public async Task<HttpResponseData> RunHelloWorld(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
             _logger.LogInformation("HelloWorld function was triggered.");
             var response = req.CreateResponse(System.Net.HttpStatusCode.OK);
-            response.WriteString("Hello World");
+            await response.WriteStringAsync("Hello World");
             return response;
         }
     }
