@@ -24,7 +24,7 @@ namespace EventGridBlobTriggerFunction
             var content = await blobStreamReader.ReadToEndAsync();
             _logger.LogInformation(
                 "C# Blob Trigger (using Event Grid) processed blob {@BlobInfo}",
-                new { Timestamp = DateTime.UtcNow, Name = name });
+                new { Timestamp = DateTime.UtcNow, Name = name, Length = stream.Length });
         }
     }
 

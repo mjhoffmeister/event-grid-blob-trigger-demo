@@ -48,6 +48,6 @@ jobs:
       - name: Deploy Function App to App Service
         uses: azure/webapps-deploy@v3
         with:
-          app-name: func-evgblobtrig-demo-westus2
+          app-name: func-evgblobtrig-demo-westus-02
           package: ./publish.zip
           resource-group-name: rg-evgblobtrig-demo-westus2
